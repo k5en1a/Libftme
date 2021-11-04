@@ -1,3 +1,5 @@
+#include "libft.h"
+
 int
 isalpha(c)
 	int c;
