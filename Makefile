@@ -7,19 +7,24 @@ FUN				=	ft_isalnum.c ft_isprint.c ft_memcmp.c  ft_putchar_fd.c ft_split.c \
 					ft_putstr_fd.c  ft_strjoin.c ft_strmapi.c ft_strtrim.c
 FUNO				= $(FUN:.c=.o)
 
-NAME 			= libft.a
+CC				= gcc
+CFLAGS			= -Wall -Wextra -Werror -I.
+
+NAME			= libft.a
 RM				= rm -f
 FUNO			= $(FUN:.c=.o)
 
 $(NAME):		$(FUNO)
 				ar rcs $(NAME) $(FUNO)
-all: 			
-				$(NAME)
+all: 			$(NAME)
 clean:
 				$(RM) $(FUNO)
-fclean:			
-				clean
+
+fclean:			clean
 				$(RM) $(NAME)
 
-re:				
-				fclean $(NAME)
+re:				fclean $(NAME)
+
+.PHONY:			all clean fclean re
+
+

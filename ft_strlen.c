@@ -1,18 +1,23 @@
-int ft_strlen(const char *s)
-{
-//    int count = 0;
-//    while(*s!='\0')
-//    {
-//        count++;
-//        s++;
-//    }
-//    return count;
-    int i;
-    i = 0;
-    while (s[i] != '\0')
-    {
-        i++;
-    }
-    return(i);
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cwhateve <cwhateve@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/08 13:08:09 by cwhateve          #+#    #+#             */
+/*   Updated: 2021/11/08 13:08:09 by cwhateve         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "libft.h"
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
 }
