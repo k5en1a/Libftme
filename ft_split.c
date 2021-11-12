@@ -12,67 +12,64 @@
 
 #include "libft.h"
 
-int		ft_cw(char const *s, char c)
-{
-	int i;
-	int count;
-
-	i = 0;
-	count = 0;
-	while (s[i])
-	{
-		while (s[i] == c)
-			i++;
-		if (s[i] != c && s[i])
-			count++;
-		while (s[i] != c && s[i])
-			i++;
-	}
-	return (count);
-}
-
-int		ft_ws(char const *str, char c)
+static int	count_words(const char *str, char c)
 {
 	int	i;
-	int	len;
+	int	trigger;
 
 	i = 0;
-	len = 0;
-	while (str[i] == c)
-		i++;
-	while (str[i] != c && str[i] != '\0')
+	trigger = 0;
+	while (*str)
 	{
-		i++;
-		len++;
+		if (*str != c && trigger == 0)
+		{
+			trigger = 1;
+			i++;
+		}
+		else if (*str == c)
+			trigger = 0;
+		str++;
 	}
-	return (len);
+	return (i);
 }
 
-char		**ft_split(char const *s, char c)
+static char	*word_dup(const char *str, int start, int finish)
 {
+	char	*word;
 	int		i;
-	int		j;
-	int		l;
-	char	**str;
 
-	i = -1;
+	i = 0;
+	word = malloc((finish - start + 1) * sizeof(char));
+	while (start < finish)
+		word[i++] = str[start++];
+	word[i] = '\0';
+	return (word);
+}
+
+char	**ft_split(char const *s, char c)
+{
+	size_t	i;
+	size_t	j;
+	int		index;
+	char	**split;
+
+	split = malloc((count_words(s, c) + 1) * sizeof(char *));
+	if (!s || !(split))
+		return (0);
+	i = 0;
 	j = 0;
-	if (!s || !c || !(str = (char**)malloc(sizeof(char*) * (ft_cw(s, c) + 1))))
-		return (NULL);
-	while (ft_cw(s, c) > ++i)
+	index = -1;
+	while (i <= ft_strlen(s))
 	{
-		l = 0;
-		if (!(str[i] = (char*)malloc(sizeof(char) * (ft_ws(&s[j], c) + 1))))
+		if (s[i] != c && index < 0)
+			index = i;
+		else if ((s[i] == c || i == ft_strlen(s)) && index >= 0)
 		{
-			ft_free_2d(str, j);
-			return (NULL);
+			split[j++] = word_dup(s, index, i);
+			index = -1;
 		}
-		while (s[j] == c)
-			j++;
-		while (s[j] != c && s[j])
-			str[i][l++] = s[j++];
-		str[i][l] = '\0';
+		i++;
 	}
-	str[i] = 0;
-	return (str);
+	split[j] = 0;
+	return (split);
 }
