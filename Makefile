@@ -5,18 +5,17 @@ FUN				=	ft_isalnum.c ft_isprint.c ft_memcmp.c ft_putchar_fd.c ft_split.c \
 					ft_memmove.c ft_putnbr_fd.c ft_strdup.c ft_strlen.c ft_strrchr.c \
 					ft_toupper.c ft_calloc.c ft_isdigit.c ft_memchr.c ft_memset.c \
 					ft_putstr_fd.c ft_strjoin.c ft_strmapi.c ft_strtrim.c ft_striteri.c
-FUNO				= $(FUN:.c=.o)
 
 CC				= gcc
-CFLAGS			= -Wall -Wextra -Werror -I.
+CFLAGS			= -Wall -Wextra -Werror
 
 NAME			= libft.a
-RM				= rm -f
 FUNO			= $(FUN:.c=.o)
-
 $(NAME):		$(FUNO)
 				ar rcs $(NAME) $(FUNO)
 all: 			$(NAME)
+
+RM				= rm -f
 clean:
 				$(RM) $(FUNO)
 
@@ -24,5 +23,9 @@ fclean:			clean
 				$(RM) $(NAME)
 
 re:				fclean $(NAME)
+
+so:
+	$(CC) -nostartfiles -fPIC $(CFLAGS) $(FUN)
+	gcc -nostartfiles -shared -o libft.so $(FUNO)
 
 .PHONY:			all clean fclean re
