@@ -5,71 +5,113 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwhateve <cwhateve@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/11 18:44:13 by cwhateve          #+#    #+#             */
-/*   Updated: 2021/03/11 18:44:13 by cwhateve         ###   ########.fr       */
+/*   Created: 2021/11/15 21:28:26 by cwhateve          #+#    #+#             */
+/*   Updated: 2021/11/15 21:28:26 by cwhateve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stddef.h>
 #include "libft.h"
 
-static int	count_words(const char *str, char c)
+struct s_dc
 {
-	int	i;
-	int	trigger;
+	size_t	count;
+	size_t	storage;
+};
 
-	i = 0;
-	trigger = 0;
-	while (*str)
-	{
-		if (*str != c && trigger == 0)
-		{
-			trigger = 1;
-			i++;
-		}
-		else if (*str == c)
-			trigger = 0;
-		str++;
-	}
-	return (i);
-}
-
-static char	*word_dup(const char *str, int start, int finish)
-{
-	char	*word;
-	int		i;
-
-	i = 0;
-	word = malloc((finish - start + 1) * sizeof(char));
-	while (start < finish)
-		word[i++] = str[start++];
-	word[i] = '\0';
-	return (word);
-}
-
-char	**ft_split(char const *s, char c)
+static void	*freefabric(void **ptr)
 {
 	size_t	i;
-	size_t	j;
-	int		index;
-	char	**split;
 
-	split = malloc((count_words(s, c) + 1) * sizeof(char *));
-	if (!s || !(split))
-		return (0);
 	i = 0;
-	j = 0;
-	index = -1;
-	while (i <= ft_strlen(s))
+	while (ptr[i])
+		free(ptr[i++]);
+	free(ptr);
+	return (NULL);
+}
+
+static struct s_dc	word_count(const char *str, char sep)
+{
+	struct s_dc	ret;
+
+	ret.count = 0;
+	ret.storage = 0;
+	while (*str)
 	{
-		if (s[i] != c && index < 0)
-			index = i;
-		else if ((s[i] == c || i == ft_strlen(s)) && index >= 0)
+		while (*str == sep)
+			str++;
+		if (*str)
+			ret.count++;
+		while (*str && *str != sep)
 		{
-			split[j++] = word_dup(s, index, i);
-			index = -1;
+			str++;
+			ret.storage++;
 		}
-		i++;
 	}
-	split[j] = 0;
-	return (split);
+	ret.storage += ret.count;
+	return (ret);
+}
+
+static void	populate(char **t, const char *src, char sep, size_t cnt)
+{
+	char	*dst;
+	size_t	w;
+
+	w = 0;
+	dst = (char *)(t + cnt + 1);
+	while (w < cnt)
+	{
+		t[w] = dst;
+		while (*src && *src != sep)
+			*dst++ = *src++;
+		dst++;
+		while (*src == sep)
+			src++;
+		w++;
+	}
+}
+
+char	**ft_split_sm(const char *str, char sep)
+{
+	struct s_dc		dc;
+	char			**table;
+
+	while (*str && *str == sep)
+		str++;
+	dc = word_count(str, sep);
+	table = (char **)ft_calloc(dc.storage + (dc.count + 1) * sizeof(void *), 1);
+	if (table && dc.count)
+	{
+		populate(table, str, sep, dc.count);
+	}
+	return (table);
+}
+
+char	**ft_split(char const *str, char sep)
+{
+	unsigned int	i;
+	const char		*end;
+	char			**tab;
+
+	tab = (char **)ft_calloc(word_count(str, sep).count + 1, sizeof(char *));
+	if (tab)
+	{
+		i = 0;
+		end = str;
+		while (*end)
+		{
+			while (*end == sep)
+				str = ++end;
+			while (*end && *end != sep)
+				end++;
+			if (end > str)
+			{
+				tab[i] = ft_substr(str, 0, end - str);
+				if (tab[i++] == NULL)
+					return (freefabric((void **)tab));
+			}
+		}
+	}
+	return (tab);
 }

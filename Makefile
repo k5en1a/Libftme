@@ -10,22 +10,21 @@ CC				= gcc
 CFLAGS			= -Wall -Wextra -Werror
 
 NAME			= libft.a
-FUNO			= $(FUN:.c=.o)
-$(NAME):		$(FUNO)
-				ar rcs $(NAME) $(FUNO)
+O				= $(FUN:.c=.o)
+$(NAME):		$(O)
+				ar rcs $(NAME) $(O)
 all: 			$(NAME)
 
 RM				= rm -f
 clean:
-				$(RM) $(FUNO)
+				$(RM) $(O)
 
 fclean:			clean
 				$(RM) $(NAME)
 
 re:				fclean $(NAME)
 
-so:
-	$(CC) -nostartfiles -fPIC $(CFLAGS) $(FUN)
-	gcc -nostartfiles -shared -o libft.so $(FUNO)
+%.o:			%.c libft.h
+				$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY:			all clean fclean re
