@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: cwhateve <cwhateve@student.21-school.ru    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/11/17 22:45:04 by cwhateve          #+#    #+#              #
+#    Updated: 2021/11/17 22:45:04 by cwhateve         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 FUN				=	ft_isalnum.c ft_isprint.c ft_memcmp.c ft_putchar_fd.c ft_split.c \
 					ft_strlcat.c ft_strncmp.c ft_substr.c ft_atoi.c ft_isalpha.c \
 					ft_itoa.c ft_memcpy.c ft_putendl_fd.c ft_strchr.c ft_strlcpy.c \
@@ -6,13 +18,13 @@ FUN				=	ft_isalnum.c ft_isprint.c ft_memcmp.c ft_putchar_fd.c ft_split.c \
 					ft_toupper.c ft_calloc.c ft_isdigit.c ft_memchr.c ft_memset.c \
 					ft_putstr_fd.c ft_strjoin.c ft_strmapi.c ft_strtrim.c ft_striteri.c
 
-CC				= gcc
+CC				= clang
 CFLAGS			= -Wall -Wextra -Werror
 
 NAME			= libft.a
 O				= $(FUN:.c=.o)
 $(NAME):		$(O)
-				ar rcs $(NAME) $(O)
+				ar rcs $(NAME) $?
 all: 			$(NAME)
 
 RM				= rm -f
@@ -26,5 +38,9 @@ re:				fclean $(NAME)
 
 %.o:			%.c libft.h
 				$(CC) $(CFLAGS) -c $< -o $@
+
+so:
+	$(CC) -nostartfiles -fPIC $(CFLAGS) $(SRC)
+	gcc -nostartfiles -shared -o libft.so $(OBJ)
 
 .PHONY:			all clean fclean re
