@@ -12,13 +12,13 @@
 
 #include "libft.h"
 
-int	ft_abs(int N)
+static int	ft_abs(int m)
 {
-	if (N < 0)
+	if (m < 0)
 	{
-		N = (-1) * N;
+		m = (-1) * m;
 	}
-	return (N);
+	return (m);
 }
 
 void	ft_putnbr_fd(int n, int fd)
