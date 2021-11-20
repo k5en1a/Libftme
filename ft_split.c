@@ -9,109 +9,82 @@
 /*   Updated: 2021/11/15 21:28:26 by cwhateve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <stdlib.h>
-#include <stddef.h>
 #include "libft.h"
 
-struct s_dc
+static size_t	ft_count(char const *s, char c)
 {
-	size_t	count;
-	size_t	storage;
-};
+	size_t	words;
+	char	light;
 
-static void	*freefabric(void **ptr)
-{
-	size_t	i;
-
-	i = 0;
-	while (ptr[i])
-		free(ptr[i++]);
-	free(ptr);
-	return (NULL);
-}
-
-static struct s_dc	word_count(const char *str, char sep)
-{
-	struct s_dc	ret;
-
-	ret.count = 0;
-	ret.storage = 0;
-	while (*str)
+	if (c == '\0')
+		return (*s != '\0');
+	words = 0;
+	light = 0;
+	while (*s)
 	{
-		while (*str == sep)
-			str++;
-		if (*str)
-			ret.count++;
-		while (*str && *str != sep)
+		if (!light && *s != c)
 		{
-			str++;
-			ret.storage++;
+			words++;
+			light = 1;
 		}
+		else if (light && *s == c)
+			light = 0;
+		s++;
 	}
-	ret.storage += ret.count;
-	return (ret);
+	return (words);
 }
 
-static void	populate(char **t, const char *src, char sep, size_t cnt)
+static void	ft_put_word(char **p, char **s, char c)
 {
-	char	*dst;
-	size_t	w;
+	char	*start;
+	size_t	len;
 
-	w = 0;
-	dst = (char *)(t + cnt + 1);
-	while (w < cnt)
-	{
-		t[w] = dst;
-		while (*src && *src != sep)
-			*dst++ = *src++;
-		dst++;
-		while (*src == sep)
-			src++;
-		w++;
-	}
+	while (**s == c)
+		(*s)++;
+	start = *s;
+	while (**s && **s != c)
+		(*s)++;
+	len = *s - start;
+	*p = malloc (sizeof(char) * (len + 1));
+	if (!*p)
+		return ;
+	ft_strlcpy(*p, start, len + 1);
 }
 
-char	**ft_split_sm(const char *str, char sep)
+static void	ft_free_all(char **words)
 {
-	struct s_dc		dc;
-	char			**table;
+	char	**p;
 
-	while (*str && *str == sep)
-		str++;
-	dc = word_count(str, sep);
-	table = (char **)ft_calloc(dc.storage + (dc.count + 1) * sizeof(void *), 1);
-	if (table && dc.count)
+	p = words;
+	while (*p)
 	{
-		populate(table, str, sep, dc.count);
+		p++;
+		free(*(p - 1));
 	}
-	return (table);
+	free(words);
 }
 
-char	**ft_split(char const *str, char sep)
+char	**ft_split(char const *s, char c)
 {
-	unsigned int	i;
-	const char		*end;
-	char			**tab;
+	size_t	word;
+	char	**result;
+	char	**p;
 
-	tab = (char **)ft_calloc(word_count(str, sep).count + 1, sizeof(char *));
-	if (tab)
+	word = ft_count(s, c);
+	result = ft_calloc(word + 1, sizeof(char *));
+	if (!result)
+		return (NULL);
+	p = result;
+	while (word)
 	{
-		i = 0;
-		end = str;
-		while (*end)
+		ft_put_word(p, (char **) &s, c);
+		if (!*p)
 		{
-			while (*end == sep)
-				str = ++end;
-			while (*end && *end != sep)
-				end++;
-			if (end > str)
-			{
-				tab[i] = ft_substr(str, 0, end - str);
-				if (tab[i++] == NULL)
-					return (freefabric((void **)tab));
-			}
+			ft_free_all(result);
+			return (NULL);
 		}
+		p++;
+		word--;
 	}
-	return (tab);
+	return (result);
 }

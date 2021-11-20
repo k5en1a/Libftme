@@ -23,16 +23,16 @@ static int	ft_abs(int m)
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	unsigned int	num;
+	unsigned int	nbr;
 
 	if (n < 0)
 		ft_putchar_fd('-', fd);
-	num = (unsigned int)ft_abs(n);
-	if (num >= 10)
+	nbr = (unsigned int)ft_abs(n);
+	if (nbr >= 10)
 	{
-		ft_putnbr_fd(num / 10, fd);
-		ft_putnbr_fd(num % 10, fd);
+		ft_putnbr_fd(nbr / 10, fd);
+		ft_putnbr_fd(nbr % 10, fd);
 	}
 	else
-		ft_putchar_fd(num + '0', fd);
+		ft_putchar_fd(nbr + '0', fd);
 }

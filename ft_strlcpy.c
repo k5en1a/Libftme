@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwhateve <cwhateve@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/10 20:19:21 by cwhateve          #+#    #+#             */
-/*   Updated: 2021/11/10 20:19:21 by cwhateve         ###   ########.fr       */
+/*   Created: 2021/11/02 20:19:21 by cwhateve          #+#    #+#             */
+/*   Updated: 2021/11/02 20:19:21 by cwhateve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,18 @@
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	size_t	i;
+	const char	*src_part;
 
-	i = 0;
-	if (size > 0)
+	if (size == 0)
+		return (ft_strlen(src));
+	src_part = src;
+	while (*src && size - 1)
 	{
-		while (src[i] && i < (size - 1))
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = 0;
+		*dst = *src;
+		dst++;
+		src++;
+		size--;
 	}
-	while (src[i])
-		i++;
-	return (i);
+	*dst = '\0';
+	return (ft_strlen(src_part));
 }
-
-/*
-#include "libft.h"
-
-char	*ft_strcpy(char *dst, const char *src)
-{
-	ft_memcpy(dst, src, ft_strlen(src) + 1);
-	return (dst);
-}
-*/
