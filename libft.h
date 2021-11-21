@@ -6,7 +6,7 @@
 /*   By: cwhateve <cwhateve@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 21:24:54 by cwhateve          #+#    #+#             */
-/*   Updated: 2021/11/20 21:55:46 by cwhateve         ###   ########.fr       */
+/*   Updated: 2021/11/21 20:27:03 by cwhateve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t n);
 int		ft_atoi(const char *nptr);
 
 void	*ft_calloc(size_t nmemb, size_t size);
-char	*ft_strdup(const char *s1);
+char	*ft_strdup(const char *s);
 
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwhateve <cwhateve@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/11 17:45:29 by cwhateve          #+#    #+#             */
-/*   Updated: 2021/11/11 17:45:29 by cwhateve         ###   ########.fr       */
+/*   Created: 2021/11/06 17:45:29 by cwhateve          #+#    #+#             */
+/*   Updated: 2021/11/06 17:45:29 by cwhateve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		}
 		i++;
 	}
-	str[j] = 0;
+	str[j] = '\0';
 	return (str);
 }

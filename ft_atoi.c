@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwhateve <cwhateve@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/11 16:20:55 by cwhateve          #+#    #+#             */
-/*   Updated: 2021/05/11 16:20:55 by cwhateve         ###   ########.fr       */
+/*   Created: 2021/11/11 16:20:55 by cwhateve          #+#    #+#             */
+/*   Updated: 2021/11/11 16:20:55 by cwhateve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@ int	ft_atoi(const char *nptr)
 	minus = 1;
 	num = 0;
 	while (ft_isspace_atoi(nptr[i]))
-		i = i + 1;
+		i++;
 	if (nptr[i] == '-')
 		minus = -1;
 	if (nptr[i] == '-' || nptr[i] == '+')
-		i = i + 1;
+		i++;
 	while (ft_isdigit(nptr[i]))
 	{
 		num = num * 10 + nptr[i] - '0';
-		i = i + 1;
+		i++;
 	}
 	return (num * minus);
 }

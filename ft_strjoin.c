@@ -34,6 +34,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		str[j++] = s2[i];
 		i++;
 	}
-	str[j] = 0;
+	str[j] = '\0';
 	return (str);
 }
