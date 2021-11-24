@@ -12,7 +12,29 @@
 
 #include "libft.h"
 
-static int	ft_isspace_atoi(int c)
+static int	finalize(int res, int dnum, int sign)
+{
+	if (res > INT_MAX / 10)
+	{
+		if (sign > 0)
+			return (INT_MAX);
+		else
+			return (INT_MIN);
+	}
+	if (sign > 0)
+	{
+		if (dnum > (INT_MAX % 10))
+			return (INT_MAX);
+		else
+			return (res * 10 + dnum);
+	}
+	else if (dnum > -(INT_MIN % 10))
+		return (INT_MIN);
+	else
+		return (-res * 10 - dnum);
+}
+
+static int	ft_isspace(int c)
 {
 	if (c == ' ' || c == '\t' || c == '\n'
 		|| c == '\r' || c == '\v' || c == '\f')
@@ -23,23 +45,23 @@ static int	ft_isspace_atoi(int c)
 
 int	ft_atoi(const char *nptr)
 {
-	int	i;
-	int	minus;
-	int	num;
+	int		res;
+	int		sign;
+	int		dnum;
 
-	i = 0;
-	minus = 1;
-	num = 0;
-	while (ft_isspace_atoi(nptr[i]))
-		i++;
-	if (nptr[i] == '-')
-		minus = -1;
-	if (nptr[i] == '-' || nptr[i] == '+')
-		i++;
-	while (ft_isdigit(nptr[i]))
+	res = 0;
+	sign = 1;
+	while (ft_isspace(*nptr))
+		nptr++;
+	if (*nptr == '+' || *nptr == '-')
+		if (*nptr++ == '-')
+			sign = -1;
+	while (ft_isdigit(*nptr))
 	{
-		num = num * 10 + nptr[i] - '0';
-		i++;
+		dnum = *nptr++ - '0';
+		if (res >= (INT_MAX / 10))
+			return (finalize(res, dnum, sign));
+		res = res * 10 + dnum;
 	}
-	return (num * minus);
+	return (res * sign);
 }

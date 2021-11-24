@@ -6,12 +6,13 @@
 /*   By: cwhateve <cwhateve@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 21:24:54 by cwhateve          #+#    #+#             */
-/*   Updated: 2021/11/21 20:27:03 by cwhateve         ###   ########.fr       */
+/*   Updated: 2021/11/22 22:35:10 by cwhateve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+# include <limits.h>
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
