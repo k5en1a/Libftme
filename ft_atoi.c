@@ -12,56 +12,30 @@
 
 #include "libft.h"
 
-static int	finalize(int res, int dnum, int sign)
+int	ft_atoi(const char *str)
 {
-	if (res > INT_MAX / 10)
-	{
-		if (sign > 0)
-			return (INT_MAX);
-		else
-			return (INT_MIN);
-	}
-	if (sign > 0)
-	{
-		if (dnum > (INT_MAX % 10))
-			return (INT_MAX);
-		else
-			return (res * 10 + dnum);
-	}
-	else if (dnum > -(INT_MIN % 10))
-		return (INT_MIN);
-	else
-		return (-res * 10 - dnum);
-}
+	long	d;
+	int		abs;
 
-static int	ft_isspace(int c)
-{
-	if (c == ' ' || c == '\t' || c == '\n'
-		|| c == '\r' || c == '\v' || c == '\f')
-		return (1);
-	else
-		return (0);
-}
-
-int	ft_atoi(const char *nptr)
-{
-	int		res;
-	int		sign;
-	int		dnum;
-
-	res = 0;
-	sign = 1;
-	while (ft_isspace(*nptr))
-		nptr++;
-	if (*nptr == '+' || *nptr == '-')
-		if (*nptr++ == '-')
-			sign = -1;
-	while (ft_isdigit(*nptr))
+	d = 0;
+	abs = 1;
+	while (*str == ' ' || *str == '\t' || \
+	*str == '\r' || *str == '\n' || *str == '\f' || *str == '\v')
+		str ++;
+	if (*str == '-')
 	{
-		dnum = *nptr++ - '0';
-		if (res >= (INT_MAX / 10))
-			return (finalize(res, dnum, sign));
-		res = res * 10 + dnum;
+		abs = -1;
+		str++;
 	}
-	return (res * sign);
+	else if (*str == '+')
+		str++;
+	while (ft_isdigit(*str) && *str)
+	{
+		d = (d * 10) + (*str++ - 48);
+		if (d > 2147483647 && abs == 1)
+			return (-1);
+		if (d > 2147483648 && abs == -1)
+			return (0);
+	}
+	return (d * abs);
 }
