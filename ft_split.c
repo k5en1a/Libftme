@@ -15,7 +15,7 @@
 static size_t	ft_count(char const *s, char c)
 {
 	size_t	words;
-	char	light;
+	int		light;
 
 	if (c == '\0')
 		return (*s != '\0');
@@ -52,17 +52,17 @@ static void	ft_put_word(char **p, char **s, char c)
 	ft_strlcpy(*p, start, len + 1);
 }
 
-static void	ft_free_all(char **words)
+static void	ft_free_all(char **result)
 {
 	char	**p;
 
-	p = words;
+	p = result;
 	while (*p)
 	{
 		p++;
 		free(*(p - 1));
 	}
-	free(words);
+	free(result);
 }
 
 char	**ft_split(char const *s, char c)
